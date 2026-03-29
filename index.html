@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>One-Click Auto Video</title>
+    <title>NFC 自动视频</title>
     <style>
         body {
             margin: 0;
@@ -11,45 +11,47 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
         }
-        .btn {
-            padding: 12px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
+
         video {
             width: 90%;
             max-width: 900px;
-            display: none; /* 初始隐藏 */
+            cursor: pointer;
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 30px;
+            color: #fff;
+            font-size: 16px;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
-    <button class="btn" id="startBtn">点击播放视频</button>
+    <video
+        id="myVideo"
+        src="video.mp4"
+        autoplay
+        muted
+        playsinline
+        loop
+        controls
+    ></video>
 
-    <video id="myVideo" src="video.mp4" controls playsinline>
-        您的浏览器不支持视频播放
-    </video>
+    <div class="hint">点击画面开启声音</div>
 
     <script>
-        const btn = document.getElementById('startBtn');
         const video = document.getElementById('myVideo');
 
-        btn.addEventListener('click', () => {
-            video.style.display = 'block'; // 显示视频
-            video.play(); // 开始播放（此时已获得用户许可）
-            btn.style.display = 'none'; // 隐藏按钮
-            video.setAttribute('autoplay', ''); // 可选：确保后续循环自动播
-            video.setAttribute('muted', 'false'); // 开启声音
-            video.setAttribute('loop', ''); // 循环播放
-        });
+        // 用户第一次点击任意位置（包括视频）时开启声音
+        document.body.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                video.play();
+            }
+        }, { once: true }); // 只执行一次
     </script>
 
 </body>
