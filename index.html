@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>One-Click Auto Video</title>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 90%;
+            max-width: 900px;
+            display: none; /* 初始隐藏 */
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn" id="startBtn">点击播放视频</button>
+
+    <video id="myVideo" src="video.mp4" controls playsinline>
+        您的浏览器不支持视频播放
+    </video>
+
+    <script>
+        const btn = document.getElementById('startBtn');
+        const video = document.getElementById('myVideo');
+
+        btn.addEventListener('click', () => {
+            video.style.display = 'block'; // 显示视频
+            video.play(); // 开始播放（此时已获得用户许可）
+            btn.style.display = 'none'; // 隐藏按钮
+            video.setAttribute('autoplay', ''); // 可选：确保后续循环自动播
+            video.setAttribute('muted', 'false'); // 开启声音
+            video.setAttribute('loop', ''); // 循环播放
+        });
+    </script>
+
+</body>
+</html>
